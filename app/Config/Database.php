@@ -51,6 +51,31 @@ class Database extends Config
         ],
     ];
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        if (ENVIRONMENT === 'testing') {
+            $this->defaultGroup = 'tests';
+        }
+
+        if ($host = getenv('MYSQLHOST')) {
+            $this->default['hostname'] = $host;
+        }
+        if ($db = getenv('MYSQLDATABASE')) {
+            $this->default['database'] = $db;
+        }
+        if ($user = getenv('MYSQLUSER')) {
+            $this->default['username'] = $user;
+        }
+        if ($pass = getenv('MYSQLPASSWORD')) {
+            $this->default['password'] = $pass;
+        }
+        if ($port = getenv('MYSQLPORT')) {
+            $this->default['port'] = (int) $port;
+        }
+    }
+
     //    /**
     //     * Sample database connection for SQLite3.
     //     *
@@ -189,16 +214,4 @@ class Database extends Config
             'time'     => 'H:i:s',
         ],
     ];
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        // Ensure that we always set the database group to 'tests' if
-        // we are currently running an automated test suite, so that
-        // we don't overwrite live data on accident.
-        if (ENVIRONMENT === 'testing') {
-            $this->defaultGroup = 'tests';
-        }
-    }
 }
