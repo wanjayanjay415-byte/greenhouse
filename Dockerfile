@@ -1,5 +1,7 @@
 FROM php:8.2-apache
 
+ARG CACHEBUST=20250620v2
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libzip-dev \
     libpng-dev \
